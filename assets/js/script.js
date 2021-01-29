@@ -1,3 +1,5 @@
+// https://github.com/Deltaco-AB/software-download
+
 async function fetchManifest(manifest) {
 	const response = await fetch(`manifest/${manifest}.json`);
 	return response.json();
@@ -19,6 +21,7 @@ class ProductFilter {
 		this.restoreTree();
 	}
 
+	// Populate result subtree with all products in manifest
 	restoreTree(manifest = this.manifest) {
 		for(const [key,value] of Object.entries(manifest)) {
 			this.append(key,value);
@@ -45,7 +48,7 @@ class ProductFilter {
 		this.results.insertAdjacentHTML("beforeend",HTML);
 	}
 
-	// Filter view with string from input
+	// Filter view with value from input
 	search(event) {
 		const input = event.target.value.toUpperCase();
 
@@ -62,13 +65,14 @@ class ProductFilter {
 
 /* ---- */
 
+// Get manifest name from url query
 const manifest = new URLSearchParams(window.location.search).get("manifest");
+
 const elements = {
 	input: document.getElementsByTagName("input")[0],
 	results: document.getElementById("results")
 }
 
-// Create new pr
 const search = new ProductFilter(elements.input,elements.results);
 
 // Load manifest
